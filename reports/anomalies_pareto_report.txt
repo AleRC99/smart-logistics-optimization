@@ -1,0 +1,50 @@
+============================================================================================
+REPORTE DE DETECCIÓN DE ANOMALÍAS Y ANÁLISIS DE PARETO (80/20)
+============================================================================================
+Facturación Total Analizada: $299,055.00
+Facturación Expuesta a Retrasos: $170,059.00 (56.87%)
+Anomalías Críticas (Retraso + Alto Valor >= Q3): 145 ops ($65,442.00)
+Cuellos de Botella Severos (Tráfico Heavy + Espera >= Q3): 84 ops
+
+1. AUDITORÍA DE OUTLIERS UNIVARIADOS (IQR DE TUKEY Y Z-SCORE)
+--------------------------------------------------------------------------------------------
+               Variable  Limite_Inf_IQR  Limite_Sup_IQR  Outliers_IQR  Outliers_Z_2.5  Outliers_Z_3.0
+        Inventory_Level          -96.00          696.00             0               0               0
+            Temperature           13.10           34.70             0               0               0
+               Humidity           34.40           95.20             0               0               0
+           Waiting_Time          -16.00           88.00             0               0               0
+User_Transaction_Amount         -128.12          724.88             0               0               0
+User_Purchase_Frequency           -4.50           15.50             0               0               0
+      Asset_Utilization           39.55          119.35             0               0               0
+        Demand_Forecast          -16.88          412.12             0               0               0
+
+2. PARETO 80/20 POR CAUSA RAÍZ DE RETRASO (FRECUENCIA DE INCIDENCIAS)
+--------------------------------------------------------------------------------------------
+Logistics_Delay_Reason  Impacto  Pct_Individual  Pct_Acumulado     Clasificacion_ABC
+               Weather      151           26.68          26.68     A - Vital (<=80%)
+               Unknown      147           25.97          52.65     A - Vital (<=80%)
+               Traffic      135           23.85          76.50     A - Vital (<=80%)
+    Mechanical Failure      133           23.50         100.00 A - Vital (Corte 80%)
+
+3. PARETO 80/20 POR CAUSA RAÍZ DE RETRASO (EXPOSICIÓN FINANCIERA $)
+--------------------------------------------------------------------------------------------
+Logistics_Delay_Reason  Impacto  Pct_Individual  Pct_Acumulado     Clasificacion_ABC
+               Weather    46092           27.10          27.10     A - Vital (<=80%)
+               Unknown    42983           25.28          52.38     A - Vital (<=80%)
+               Traffic    41654           24.49          76.87     A - Vital (<=80%)
+    Mechanical Failure    39330           23.13         100.00 A - Vital (Corte 80%)
+
+4. TOP 10 COMBINACIONES CRÍTICAS (ACTIVO + CONDICIÓN DE TRÁFICO)
+--------------------------------------------------------------------------------------------
+Asset_ID Traffic_Status  Impacto  Pct_Individual  Pct_Acumulado Clasificacion_ABC
+Truck_10          Heavy       37            6.54           6.54 A - Vital (<=80%)
+ Truck_3          Heavy       37            6.54          13.08 A - Vital (<=80%)
+ Truck_7          Heavy       35            6.18          19.26 A - Vital (<=80%)
+ Truck_8          Heavy       35            6.18          25.44 A - Vital (<=80%)
+ Truck_4          Heavy       34            6.01          31.45 A - Vital (<=80%)
+ Truck_6          Heavy       32            5.65          37.10 A - Vital (<=80%)
+ Truck_2          Heavy       31            5.48          42.58 A - Vital (<=80%)
+ Truck_9          Heavy       30            5.30          47.88 A - Vital (<=80%)
+ Truck_5          Heavy       28            4.95          52.83 A - Vital (<=80%)
+ Truck_1          Heavy       28            4.95          57.78 A - Vital (<=80%)
+============================================================================================
