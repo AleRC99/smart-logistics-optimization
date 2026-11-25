@@ -78,5 +78,5 @@ source venv/bin/activate        # En Windows: .\venv\Scripts\Activate.ps1
 # 3. Instalar dependencias
 pip install -r requirements.txt
 
-# 4. Descargar el dataset de Kaggle en data/raw/ y ejecutar el pipeline completo
+# 4. Descargar el dataset de Kaggle y ejecutar el pipeline completo
 python main.py
