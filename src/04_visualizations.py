@@ -117,7 +117,7 @@ def plot_traffic_bottleneck(df: pd.DataFrame, output_dir: Path) -> None:
         linestyle="--",
         linewidth=1.4,
         zorder=4,
-        label=f"Overall Delay Rate ({global_rate:.1f}%)",
+        label=f"Tasa Global de Retraso ({global_rate:.1f}%)",
     )
 
     # Anotaciones directas sobre las barras
@@ -136,15 +136,15 @@ def plot_traffic_bottleneck(df: pd.DataFrame, output_dir: Path) -> None:
 
     ax.set_ylim(0, 118)
     ax.yaxis.set_major_formatter(mtick.PercentFormatter())
-    ax.set_ylabel("Delay Rate (%)")
-    ax.set_xlabel("Reported Traffic Condition")
+    ax.set_ylabel("Tasa de Retraso (%)")
+    ax.set_xlabel("Condición de Tráfico Reportada")
     ax.set_title(
-        "Critical Traffic Bottleneck: 'Heavy' Traffic Generates 100% Delays",
+        "Cuello de Botella Crítico: El Tráfico 'Heavy' Genera 100% de Retrasos",
         loc="left",
         pad=22,
     )
     plt.suptitle(
-        "Chi-square test: χ² = 372.62, p < 0.0001 | Cramér's V = 0.610 (Strong association)",
+        "Prueba Chi-Cuadrado: χ² = 372.62, p < 0.0001 | V de Cramér = 0.610 (Asociación Fuerte)",
         x=0.125,
         y=0.91,
         ha="left",
@@ -159,11 +159,11 @@ def plot_traffic_bottleneck(df: pd.DataFrame, output_dir: Path) -> None:
     out_path = output_dir / "01_traffic_bottleneck_analysis.png"
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close(fig)
-    logger.info("Chart saved: %s", out_path.name)
+    logger.info("Gráfico guardado: %s", out_path.name)
 
 
 def plot_pareto_financial_exposure(df: pd.DataFrame, output_dir: Path) -> None:
-    """Chart 2: Pareto Diagram (80/20) of financial exposure by delay cause."""
+    """Gráfico 2: Diagrama de Pareto (80/20) de exposición financiera por causa de retraso."""
     delayed = df[df["Logistics_Delay"] == 1]
     pareto = (
         delayed.groupby("Logistics_Delay_Reason", as_index=False)["User_Transaction_Amount"]
@@ -191,7 +191,7 @@ def plot_pareto_financial_exposure(df: pd.DataFrame, output_dir: Path) -> None:
         zorder=3,
     )
 
-    ax1.set_ylabel("Financial Exposure at Risk (USD)", color=PALETTE["navy"])
+    ax1.set_ylabel("Exposición Financiera en Riesgo (USD)", color=PALETTE["navy"])
     ax1.yaxis.set_major_formatter(mtick.StrMethodFormatter("${x:,.0f}"))
     ax1.set_ylim(0, pareto["Exposure_USD"].max() * 1.25)
 
@@ -249,12 +249,12 @@ def plot_pareto_financial_exposure(df: pd.DataFrame, output_dir: Path) -> None:
     ax2.grid(False)
 
     ax1.set_title(
-        f"Pareto of Financial Exposure by Root Cause (Total at Risk: ${total_exp:,.0f})",
+        f"Pareto de Exposición Financiera por Causa Raíz (Total en Riesgo: ${total_exp:,.0f})",
         loc="left",
         pad=22,
     )
     plt.suptitle(
-        "Governance Finding: 'Unknown' concentrates 25.3% ($42,983) without operational traceability",
+        "Hallazgo de Gobernanza: 'Unknown' concentra el 25.3% ($42,983) sin trazabilidad operativa",
         x=0.125,
         y=0.91,
         ha="left",
@@ -304,27 +304,27 @@ def plot_asset_traffic_heatmap(df: pd.DataFrame, output_dir: Path) -> None:
     )
 
     ax.set_title(
-        "Operational Vulnerability Matrix: Delay Rate (%) by Asset and Traffic Condition",
+        "Matriz de Vulnerabilidad Operativa: Tasa de Retraso (%) por Activo y Tráfico",
         loc="left",
         pad=22,
     )
     plt.suptitle(
-        "Assets ordered by overall failure rate | Uniform saturation at 100% under Heavy traffic",
+        "Activos ordenados por tasa global de fallo | Saturación uniforme al 100% bajo tráfico Heavy",
         x=0.125,
         y=0.91,
         ha="left",
         fontsize=9.5,
         color=PALETTE["text_muted"],
     )
-    ax.set_xlabel("Traffic Condition")
-    ax.set_ylabel("Asset Identifier (Fleet)")
+    ax.set_xlabel("Condición de Tráfico")
+    ax.set_ylabel("Identificador de Activo (Flota)")
     ax.tick_params(axis="y", rotation=0)
 
     plt.tight_layout(rect=[0, 0, 1, 0.89])
     out_path = output_dir / "03_asset_risk_heatmap.png"
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close(fig)
-    logger.info("Chart saved: %s", out_path.name)
+    logger.info("Gráfico guardado: %s", out_path.name)
 
 
 def plot_financial_anomaly_quadrants(df: pd.DataFrame, output_dir: Path) -> None:
@@ -338,26 +338,26 @@ def plot_financial_anomaly_quadrants(df: pd.DataFrame, output_dir: Path) -> None
         df["Logistics_Delay"] == 1,
     ]
     choices = [
-        "Critical Anomaly: Delay + High Value ≥ Q3 (145 ops | $65,442)",
-        "Standard Delay: Value < Q3 (421 ops)",
+        "Anomalía Crítica: Retraso + Alto Valor ≥ Q3 (145 ops | $65,442)",
+        "Retraso Estándar: Valor < Q3 (421 ops)",
     ]
     df_plot = df.copy()
     df_plot["Segmento_Riesgo"] = np.select(
-        conditions, choices, default="Operation on Time (434 ops)"
+        conditions, choices, default="Operación a Tiempo (434 ops)"
     )
 
     color_map = {
-        "Critical Anomaly: Delay + High Value ≥ Q3 (145 ops | $65,442)": PALETTE["crimson"],
-        "Standard Delay: Value < Q3 (421 ops)": PALETTE["slate"],
-        "Operation on Time (434 ops)": PALETTE["light_gray"],
+        "Anomalía Crítica: Retraso + Alto Valor ≥ Q3 (145 ops | $65,442)": PALETTE["crimson"],
+        "Retraso Estándar: Valor < Q3 (421 ops)": PALETTE["slate"],
+        "Operación a Tiempo (434 ops)": PALETTE["light_gray"],
     }
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
     for segment in [
-        "Operation on Time (434 ops)",
-        "Standard Delay: Value < Q3 (421 ops)",
-        "Critical Anomaly: Delay + High Value ≥ Q3 (145 ops | $65,442)",
+        "Operación a Tiempo (434 ops)",
+        "Retraso Estándar: Valor < Q3 (421 ops)",
+        "Anomalía Crítica: Retraso + Alto Valor ≥ Q3 (145 ops | $65,442)",
     ]:
         subset = df_plot[df_plot["Segmento_Riesgo"] == segment]
         ax.scatter(
@@ -382,7 +382,7 @@ def plot_financial_anomaly_quadrants(df: pd.DataFrame, output_dir: Path) -> None
     ax.text(
         10.5,
         q3_amount + 6,
-        f"Threshold High Value Q3 = ${q3_amount:.2f}",
+        f"Umbral Alto Valor Q3 = ${q3_amount:.2f}",
         color=PALETTE["navy"],
         fontsize=9,
         fontweight="bold",
@@ -399,15 +399,15 @@ def plot_financial_anomaly_quadrants(df: pd.DataFrame, output_dir: Path) -> None
     ax.set_ylim(90, 520)
     ax.set_xlim(8, 62)
     ax.yaxis.set_major_formatter(mtick.StrMethodFormatter("${x:,.0f}"))
-    ax.set_xlabel("Waiting Time (Minutes)")
-    ax.set_ylabel("Customer Transaction Amount (USD)")
+    ax.set_xlabel("Tiempo de Espera Operativo (Minutos)")
+    ax.set_ylabel("Monto de Transacción del Cliente (USD)")
     ax.set_title(
-        "Segmentation of Compound Anomalies: Financial Exposure vs. Waiting Period",
+        "Segmentación de Anomalías Compuestas: Exposición Financiera vs. Espera",
         loc="left",
         pad=22,
     )
     plt.suptitle(
-        "145 critical operations exceed the 75th percentile for billing ($397) and are confirmed to be delayed",
+        "145 operaciones críticas superan el percentil 75 de facturación ($397) y sufren retraso confirmado",
         x=0.125,
         y=0.91,
         ha="left",
@@ -428,11 +428,11 @@ def plot_financial_anomaly_quadrants(df: pd.DataFrame, output_dir: Path) -> None
     out_path = output_dir / "04_financial_anomaly_quadrants.png"
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close(fig)
-    logger.info("Chart saved: %s", out_path.name)
+    logger.info("Gráfico guardado: %s", out_path.name)
 
 
 def main() -> None:
-    """Orchestrates the generation of all executive artifacts (Phase 4)."""
+    """Orquesta la generación de todas las figuras ejecutivas (Fase 4)."""
     try:
         configure_style()
         df = load_enriched_data(ENRICHED_DATA_PATH)
@@ -443,10 +443,10 @@ def main() -> None:
         plot_asset_traffic_heatmap(df, FIGURES_DIR)
         plot_financial_anomaly_quadrants(df, FIGURES_DIR)
 
-        logger.info("Phase 4 completed: 4 executive visualizations exported at 300 DPI.")
+        logger.info("Fase 4 completada: 4 visualizaciones ejecutivas exportadas a 300 DPI.")
 
     except Exception as exc:
-        logger.error("Error during the generation of charts (Phase 4): %s", exc, exc_info=True)
+        logger.error("Error durante la generación de gráficos (Fase 4): %s", exc, exc_info=True)
         sys.exit(1)
 
 

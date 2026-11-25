@@ -8,6 +8,7 @@
 ## 📋 Resumen Ejecutivo (*Bottom Line Up Front*)
 
 Este proyecto aplica **Estadística No Paramétrica, Detección de Anomalías Compuestas y Análisis de Pareto (80/20)** sobre 1.000 operaciones de una red logística monitoreada por IoT, con el objetivo de identificar cuellos de botella operativos y cuantificar la exposición financiera por retrasos.
+Fuente del dataset: https://www.kaggle.com/datasets/ziya07/smart-logistics-supply-chain-dataset
 
 ### Indicadores Clave Auditados
 * **Facturación Total Analizada:** `$299,055.00` (1.000 operaciones en 10 activos de transporte).
@@ -67,7 +68,7 @@ Dado que las variables individuales siguen distribuciones acotadas sin *outliers
 
 ```bash
 # 1. Clonar el repositorio
-git clone [https://github.com/TU_USUARIO/smart-logistics-optimization.git](https://github.com/TU_USUARIO/smart-logistics-optimization.git)
+git clone [https://github.com/AleRC99/smart-logistics-optimization]
 cd smart-logistics-optimization
 
 # 2. Crear y activar entorno virtual
